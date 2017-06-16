@@ -1,7 +1,8 @@
 package com.android.sample.fragment;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
@@ -16,5 +17,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction() {
         Toast.makeText(getApplicationContext(), "button clicked", Toast.LENGTH_SHORT).show();
+
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
     }
 }
