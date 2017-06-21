@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.android.sample.contentprovider">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+
+        <provider
+            android:name=".WordContentProvider"
+            android:authorities="com.android.sample.contentprovider"
+            android:enabled="true"
+            android:exported="true">
+        </provider>
+
+        <activity android:name=".WordActivity">
         </activity>
     </application>
 
