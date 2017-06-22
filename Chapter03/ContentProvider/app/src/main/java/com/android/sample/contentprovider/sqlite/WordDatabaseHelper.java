@@ -1,4 +1,4 @@
-package com.android.sample.contentprovider;
+package com.android.sample.contentprovider.sqlite;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import static android.provider.BaseColumns._ID;
-import static com.android.sample.contentprovider.WordContract.TABLE_NAME;
-import static com.android.sample.contentprovider.WordContract.WordColumns.DATE;
-import static com.android.sample.contentprovider.WordContract.WordColumns.NAME;
-import static com.android.sample.contentprovider.WordContract.WordColumns.WORDS;
+import static com.android.sample.contentprovider.contract.WordContract.TABLE_NAME;
+import static com.android.sample.contentprovider.contract.WordContract.WordColumns.DATE;
+import static com.android.sample.contentprovider.contract.WordContract.WordColumns.NAME;
+import static com.android.sample.contentprovider.contract.WordContract.WordColumns.WORDS;
 
 /**
  * Created by yoon on 2017. 6. 21..

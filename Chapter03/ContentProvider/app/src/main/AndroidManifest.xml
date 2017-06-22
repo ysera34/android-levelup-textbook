@@ -19,13 +19,15 @@
         </activity>
 
         <provider
-            android:name=".WordContentProvider"
+            android:name=".sqlite.WordContentProvider"
             android:authorities="com.android.sample.contentprovider"
             android:enabled="true"
             android:exported="true">
         </provider>
 
-        <activity android:name=".WordActivity">
+        <activity android:name=".sqlite.WordActivity">
+        </activity>
+        <activity android:name=".onmemory.WordActivity">
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.android.sample.contentprovider;
+package com.android.sample.contentprovider.contract;
 
 import android.content.ContentResolver;
 import android.net.Uri;

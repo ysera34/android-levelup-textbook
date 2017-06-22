@@ -1,4 +1,4 @@
-package com.android.sample.contentprovider;
+package com.android.sample.contentprovider.sqlite;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -10,13 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
+import com.android.sample.contentprovider.contract.WordContract;
+
 import static android.provider.BaseColumns._ID;
-import static com.android.sample.contentprovider.WordContract.AUTHORITY;
-import static com.android.sample.contentprovider.WordContract.MIME_TYPE_DIR;
-import static com.android.sample.contentprovider.WordContract.MIME_TYPE_ITEM;
-import static com.android.sample.contentprovider.WordContract.TABLE_NAME;
-import static com.android.sample.contentprovider.WordDatabaseHelper.DB_NAME;
-import static com.android.sample.contentprovider.WordDatabaseHelper.DB_VERSION;
 
 public class WordContentProvider extends ContentProvider {
 
@@ -30,8 +26,8 @@ public class WordContentProvider extends ContentProvider {
     private static final int sLastId = 0;
     static {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-        URI_MATCHER.addURI(AUTHORITY, TABLE_NAME, ROW_DIR);
-        URI_MATCHER.addURI(AUTHORITY, TABLE_NAME + "/#", ROW_ITEM);
+        URI_MATCHER.addURI(WordContract.AUTHORITY, WordContract.TABLE_NAME, ROW_DIR);
+        URI_MATCHER.addURI(WordContract.AUTHORITY, WordContract.TABLE_NAME + "/#", ROW_ITEM);
     }
 
     private WordDatabaseHelper mDatabaseHelper;
@@ -44,7 +40,7 @@ public class WordContentProvider extends ContentProvider {
         // TODO: Implement this to initialize your content provider on startup.
 
         Log.d(TAG, "onCreate");
-        mDatabaseHelper = new WordDatabaseHelper(getContext(), DB_NAME, null, DB_VERSION, new DatabaseErrorHandler() {
+        mDatabaseHelper = new WordDatabaseHelper(getContext(), WordDatabaseHelper.DB_NAME, null, WordDatabaseHelper.DB_VERSION, new DatabaseErrorHandler() {
             @Override
             public void onCorruption(SQLiteDatabase dbObj) {
                 Log.d(TAG, "onCorruption");
@@ -62,9 +58,9 @@ public class WordContentProvider extends ContentProvider {
 
         switch (URI_MATCHER.match(uri)) {
             case ROW_DIR:
-                return MIME_TYPE_DIR;
+                return WordContract.MIME_TYPE_DIR;
             case ROW_ITEM:
-                return MIME_TYPE_ITEM;
+                return WordContract.MIME_TYPE_ITEM;
             default:
                 return null;
         }
@@ -80,7 +76,7 @@ public class WordContentProvider extends ContentProvider {
             case ROW_DIR:
                 synchronized (mDatabaseHelper) {
                     SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-                    long lastId = db.insert(TABLE_NAME, null, values);
+                    long lastId = db.insert(WordContract.TABLE_NAME, null, values);
                     resultUri = ContentUris.withAppendedId(uri, lastId);
                     Log.d(TAG, "word insert : " + values);
                     getContext().getContentResolver().notifyChange(resultUri, null);
@@ -106,7 +102,7 @@ public class WordContentProvider extends ContentProvider {
                 synchronized (mDatabaseHelper) {
                     Log.d(TAG, "query(dir) uri: " + uri.toString());
                     SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-                    cursor = db.query(TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                    cursor = db.query(WordContract.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 }
                 return cursor;
             case ROW_ITEM:
@@ -114,7 +110,7 @@ public class WordContentProvider extends ContentProvider {
                     Log.d(TAG, "query(item) uri: " + uri.toString());
                     long id = ContentUris.parseId(uri);
                     SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-                    cursor = db.query(TABLE_NAME, projection, _ID, new String[]{Long.toString(id)}, null, null, null);
+                    cursor = db.query(WordContract.TABLE_NAME, projection, _ID, new String[]{Long.toString(id)}, null, null, null);
                 }
                 return cursor;
             default:
@@ -134,7 +130,7 @@ public class WordContentProvider extends ContentProvider {
                 synchronized (mDatabaseHelper) {
                     Log.d(TAG, "update(dir) values: " + values);
                     SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-                    count = db.update(TABLE_NAME, values, selection, selectionArgs);
+                    count = db.update(WordContract.TABLE_NAME, values, selection, selectionArgs);
                     if (count > 0) {
                         getContext().getContentResolver().notifyChange(uri, null);
                     }
@@ -145,7 +141,7 @@ public class WordContentProvider extends ContentProvider {
                 synchronized (mDatabaseHelper) {
                     Log.d(TAG, "update(item) values: " + values);
                     SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-                    count = db.update(TABLE_NAME, values, _ID + "=?", new String[]{Long.toString(id)});
+                    count = db.update(WordContract.TABLE_NAME, values, _ID + "=?", new String[]{Long.toString(id)});
                     if (count > 0) {
                         getContext().getContentResolver().notifyChange(uri, null);
                     }
@@ -168,7 +164,7 @@ public class WordContentProvider extends ContentProvider {
                 synchronized (mDatabaseHelper) {
                     Log.d(TAG, "delete(dir)");
                     SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-                    count = db.delete(TABLE_NAME, selection, selectionArgs);
+                    count = db.delete(WordContract.TABLE_NAME, selection, selectionArgs);
                     if (count > 0) {
                         getContext().getContentResolver().notifyChange(uri, null);
                     }
@@ -179,7 +175,7 @@ public class WordContentProvider extends ContentProvider {
                 synchronized (mDatabaseHelper) {
                     Log.d(TAG, "delete(item) id:" + id);
                     SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-                    count = db.delete(TABLE_NAME, _ID + "=?", new String[]{Long.toString(id)});
+                    count = db.delete(WordContract.TABLE_NAME, _ID + "=?", new String[]{Long.toString(id)});
                     if (count > 0) {
                         getContext().getContentResolver().notifyChange(uri, null);
                     }

@@ -1,4 +1,4 @@
-package com.android.sample.contentprovider;
+package com.android.sample.contentprovider.sqlite;
 
 import android.content.Context;
 import android.database.ContentObserver;
@@ -15,10 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.sample.contentprovider.BuildConfig;
+import com.android.sample.contentprovider.R;
+import com.android.sample.contentprovider.contract.WordContract;
+import com.facebook.stetho.Stetho;
+
 import static android.provider.BaseColumns._ID;
-import static com.android.sample.contentprovider.WordContract.WordColumns.DATE;
-import static com.android.sample.contentprovider.WordContract.WordColumns.NAME;
-import static com.android.sample.contentprovider.WordContract.WordColumns.WORDS;
 
 public class WordActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -26,7 +28,7 @@ public class WordActivity extends AppCompatActivity
     private static final String TAG = WordActivity.class.getSimpleName();
     private static final int LOADER_ID = 1;
     private static final String[] PROJECTIONS = new String[]{
-            _ID, NAME, WORDS, DATE,
+            _ID, WordContract.WordColumns.NAME, WordContract.WordColumns.WORDS, WordContract.WordColumns.DATE,
     };
     private CursorAdapter mCursorAdapter;
     private ContentObserver mContentObserver;
@@ -37,7 +39,7 @@ public class WordActivity extends AppCompatActivity
         if (BuildConfig.DEBUG) {
             Context context = getApplicationContext();
 
-//            Stetho.initializeWithDefaults(this);
+            Stetho.initializeWithDefaults(this);
         }
         setContentView(R.layout.activity_word);
 
@@ -50,9 +52,9 @@ public class WordActivity extends AppCompatActivity
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
-                String name = cursor.getString(cursor.getColumnIndexOrThrow(NAME));
-                String words = cursor.getString(cursor.getColumnIndexOrThrow(WORDS));
-                String date = cursor.getString(cursor.getColumnIndexOrThrow(DATE));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(WordContract.WordColumns.NAME));
+                String words = cursor.getString(cursor.getColumnIndexOrThrow(WordContract.WordColumns.WORDS));
+                String date = cursor.getString(cursor.getColumnIndexOrThrow(WordContract.WordColumns.DATE));
 
                 TextView nameTextView = (TextView) view.findViewById(R.id.list_item_name_text_view);
                 TextView wordTextView = (TextView) view.findViewById(R.id.list_item_word_text_view);

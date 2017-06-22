@@ -57,10 +57,18 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), WordActivity.class));
+                startActivity(new Intent(getApplicationContext(),
+                        com.android.sample.contentprovider.onmemory.WordActivity.class));
+            }
+        });
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),
+                        com.android.sample.contentprovider.sqlite.WordActivity.class));
             }
         });
     }

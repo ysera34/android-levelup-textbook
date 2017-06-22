@@ -1,4 +1,4 @@
-package com.android.sample.contentprovider;
+package com.android.sample.contentprovider.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,10 +9,10 @@ import android.os.Parcelable;
 
 public class Word implements Parcelable {
 
-    long mId;
-    String mName;
-    String mWords;
-    int mDate;
+    private long mId;
+    private String mName;
+    private String mWords;
+    private int mDate;
 
     public Word() {
     }
@@ -55,6 +55,38 @@ public class Word implements Parcelable {
             return new Word[size];
         }
     };
+
+    public long getId() {
+        return mId;
+    }
+
+    public void setId(long id) {
+        mId = id;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public String getWords() {
+        return mWords;
+    }
+
+    public void setWords(String words) {
+        mWords = words;
+    }
+
+    public int getDate() {
+        return mDate;
+    }
+
+    public void setDate(int date) {
+        mDate = date;
+    }
 
     @Override
     public String toString() {
