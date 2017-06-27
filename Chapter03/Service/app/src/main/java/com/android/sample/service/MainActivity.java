@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mPlayButton.setOnClickListener(this);
         mStopButton = (Button) findViewById(R.id.stop_button);
         mStopButton.setOnClickListener(this);
+
+        (findViewById(R.id.main2_button)).setOnClickListener(this);
     }
 
     @Override
@@ -45,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mMusicService.stop();
                 }
                 updateButtonEnable();
+                break;
+            case R.id.main2_button:
+                startActivity(new Intent(getApplicationContext(), Main2Activity.class));
                 break;
         }
     }

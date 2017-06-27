@@ -17,10 +17,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <service
             android:name=".BackgroundMusicService"
             android:enabled="true"
             android:exported="false"/>
+        <service
+            android:name=".FibonacciService"
+            android:exported="false">
+        </service>
+
+        <activity android:name=".Main2Activity">
+        </activity>
     </application>
 
 </manifest>
