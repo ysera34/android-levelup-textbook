@@ -39,15 +39,18 @@ public class SimpleRecyclerViewActivity extends AppCompatActivity {
             }
         });
         mSimpleRecyclerView.setAdapter(mSimpleStringAdapter);
+        mSimpleRecyclerView.addItemDecoration(new DividerItemDecorator(this));
     }
 
     private ArrayList<String> generateStringListData() {
         ArrayList<String> strings = new ArrayList<>();
-        strings.add("java coding");
-        strings.add("coding pattern");
-        strings.add("start hadoop");
-        strings.add("python start");
-        strings.add("programming pattern");
+        for (int i = 0; i < 10; i++) {
+            strings.add("java coding" + i);
+            strings.add("coding pattern" + i);
+            strings.add("start hadoop" + i);
+            strings.add("python start" + i);
+            strings.add("programming pattern" + i);
+        }
         return strings;
     }
 }
