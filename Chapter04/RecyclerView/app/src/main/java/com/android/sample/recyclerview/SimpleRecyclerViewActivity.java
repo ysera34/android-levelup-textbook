@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -66,6 +67,20 @@ public class SimpleRecyclerViewActivity extends AppCompatActivity implements Vie
 //        mSimpleRecyclerView.setAdapter(mSimpleStringAdapter);
         mSimpleRecyclerView.setAdapter(mManipulationSimpleStringAdapter);
         mSimpleRecyclerView.addItemDecoration(new DividerItemDecorator(this));
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                mManipulationSimpleStringAdapter.move(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                mManipulationSimpleStringAdapter.removeAtPosition(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(mSimpleRecyclerView);
     }
 
     private ArrayList<String> generateStringListData() {
