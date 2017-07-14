@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class SimpleStringAdapter extends RecyclerView.Adapter<SimpleStringAdapter.ViewHolder> {
 
-    private ArrayList<String> mStrings;
+    protected ArrayList<String> mStrings;
     private View.OnClickListener mOnItemViewClickListener;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
