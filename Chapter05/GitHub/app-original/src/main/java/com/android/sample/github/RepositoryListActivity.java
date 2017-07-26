@@ -110,6 +110,6 @@ public class RepositoryListActivity extends AppCompatActivity
 
     @Override
     public void onRepositoryItemClick(GitHubService.RepositoryItem item) {
-//        DetailActivity.start(this, item.mFullName);
+        DetailActivity.start(this, item.mFullName);
     }
 }
