@@ -5,6 +5,7 @@ import com.android.sample.github.model.GitHubService;
 
 import java.util.Calendar;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -42,7 +43,7 @@ public class RepositoryListPresenter implements RepositoryListContract.UserActio
 
         String text = android.text.format.DateFormat.format("yyyy-MM-dd", calendar).toString();
 
-        rx.Observable<GitHubService.Repositories> observable =
+        Observable<GitHubService.Repositories> observable =
                 mGitHubService.listRepositories("language:" + mRepositoryListView.getSelectedLanguage() + " created:>" + text);
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GitHubService.Repositories>() {
@@ -62,6 +63,5 @@ public class RepositoryListPresenter implements RepositoryListContract.UserActio
                 mRepositoryListView.showRepositories(repositories);
             }
         });
-
     }
 }

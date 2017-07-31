@@ -13,8 +13,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.sample.github.model.GitHubService;
 import com.android.sample.github.R;
+import com.android.sample.github.contract.DetailContract;
+import com.android.sample.github.model.GitHubService;
+import com.android.sample.github.presenter.DetailPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
@@ -22,7 +24,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity
+        implements DetailContract.View {
 
     private static final String EXTRA_FULL_REPOSITORY_NAME = "full_repository_name";
 
@@ -38,6 +41,9 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mRepositoryForkTextView;
     private ImageView mOwnerImageView;
 
+    private DetailContract.UserActions mDetailPresenter;
+    private String mFullRepositoryName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +56,59 @@ public class DetailActivity extends AppCompatActivity {
         mOwnerImageView = (ImageView) findViewById(R.id.owner_image_view);
 
         final Intent intent = getIntent();
-        final String fullRepositoryName = intent.getStringExtra(EXTRA_FULL_REPOSITORY_NAME);
+//        final String fullRepositoryName = intent.getStringExtra(EXTRA_FULL_REPOSITORY_NAME);
+        mFullRepositoryName = intent.getStringExtra(EXTRA_FULL_REPOSITORY_NAME);
 
-        loadRepository(fullRepositoryName);
+        final GitHubService gitHubService = ((GitHubApplication) getApplication()).getGitHubService();
+        mDetailPresenter = new DetailPresenter((DetailContract.View) this, gitHubService);
+        mDetailPresenter.prepare();
+
+//        loadRepository(fullRepositoryName);
+    }
+
+    @Override
+    public String getFullRepositoryName() {
+        return mFullRepositoryName;
+    }
+
+    @Override
+    public void showRepositoryInfo(GitHubService.RepositoryItem item) {
+        mFullNameTextView.setText(item.mFullName);
+        mDetailTextView.setText(item.mDescription);
+        mRepositoryStarTextView.setText(item.mStargazersCount);
+        mRepositoryForkTextView.setText(item.mForksCount);
+
+        Glide.with(DetailActivity.this)
+                .load(item.mOwner.mAvatarUrl)
+                .asBitmap().centerCrop().into(new BitmapImageViewTarget(mOwnerImageView) {
+            @Override
+            protected void setResource(Bitmap resource) {
+//                super.setResource(resource);
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                mOwnerImageView.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDetailPresenter.titleClick();
+            }
+        };
+        mFullNameTextView.setOnClickListener(listener);
+        mOwnerImageView.setOnClickListener(listener);
+    }
+
+    @Override
+    public void startBrowser(String url) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+    }
+
+    @Override
+    public void showError(String message) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
     private void loadRepository(String fullRepositoryName) {
