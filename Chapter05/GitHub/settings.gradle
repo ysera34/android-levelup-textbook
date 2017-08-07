@@ -1,1 +1,1 @@
-include ':app-original', ':app-mvp'
+include ':app-original', ':app-mvp', ':app-mvvn'

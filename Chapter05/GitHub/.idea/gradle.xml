@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app-mvp" />
+            <option value="$PROJECT_DIR$/app-mvvn" />
             <option value="$PROJECT_DIR$/app-original" />
           </set>
         </option>
