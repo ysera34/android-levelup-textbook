@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Gradle</string>
-    <string name="api_url">http://production.json</string>
+    <string name="api_url">http://stage.json</string>
 </resources>
