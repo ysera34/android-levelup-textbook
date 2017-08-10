@@ -39,6 +39,14 @@ android {
             versionNameSuffix "-stage"
         }
     }
+    productFlavors {
+        pro {
+
+        }
+        free {
+
+        }
+    }
 }
 
 dependencies {

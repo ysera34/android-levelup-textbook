@@ -16,5 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mTextView = (TextView) findViewById(R.id.text_view);
         mTextView.setText(getString(R.string.api_url));
+
+        new GreatFeature().doIt(MainActivity.this);
     }
 }
